@@ -1,0 +1,26 @@
+# Requirements for NVIDIA-SMI GUI Monitor
+
+# Core Python standard library modules (included with Python)
+# - tkinter (GUI framework)
+# - subprocess (for running nvidia-smi command)
+# - threading (for potential future async features)
+# - time (for timing operations)
+
+# No external dependencies required!
+# This application uses only Python standard library modules.
+
+# System Requirements:
+# - Python 3.6 or higher
+# - NVIDIA GPU with compatible drivers
+# - nvidia-smi utility (included with NVIDIA drivers)
+
+# Optional development dependencies (not required for running):
+# pytest>=6.0.0        # For unit testing (future development)
+# black>=21.0.0         # Code formatting (development)
+# flake8>=3.8.0         # Code linting (development)
+
+# Platform-specific notes:
+# Linux (Ubuntu/Debian): sudo apt-get install python3-tk
+# Linux (CentOS/RHEL):   sudo yum install tkinter  
+# macOS:                 Usually included with Python
+# Windows:               Usually included with Python
