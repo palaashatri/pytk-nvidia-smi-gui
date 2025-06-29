@@ -2,8 +2,7 @@
 
 A real-time graphical interface for monitoring NVIDIA GPU status using `nvidia-smi`, with color-coded metrics, process table, and power limit adjustment.
 
-![image](https://github.com/user-attachments/assets/baf6e177-a31d-49b8-9844-453eb241819a)
-
+![NVIDIA-SMI GUI Screenshot](https://github.com/user-attachments/assets/baf6e177-a31d-49b8-9844-453eb241819a)
 
 ## Overview
 
@@ -11,22 +10,34 @@ This application provides a user-friendly GUI that displays key NVIDIA GPU infor
 
 ## Features
 
-- Real-time GPU monitoring with automatic updates every 2 seconds
-- Color-coded display for utilization, memory, temperature, and power draw
-- Table of running GPU processes (PID, name, memory usage)
-- Button to open a window for adjusting the GPU power limit (with min/max/current shown)
-- Collapsible section showing the full `nvidia-smi` output
-- Error handling for missing drivers or command failures
-- Cross-platform compatibility (Windows, Linux, macOS)
-- Lightweight and minimal dependencies
+- 🔄 **Real-time monitoring** - Updates every 2 seconds automatically
+- 🎨 **Color-coded display** - Visual indicators for utilization, memory, temperature, and power draw
+- 📊 **Process monitoring** - Table of running GPU processes (PID, name, memory usage)
+- ⚡ **Power limit control** - Adjust GPU power limits with validation (requires admin privileges)
+- 📋 **Full nvidia-smi output** - Collapsible section showing complete nvidia-smi information
+- 🛡️ **Error handling** - Graceful handling of missing drivers or command failures
+- 🌐 **Cross-platform** - Compatible with Windows, Linux, and macOS
+- 🪶 **Lightweight** - No external dependencies, uses only Python standard library
+
+## Project Structure
+
+```
+pytk-nvidia-smi-gui/
+├── App.py              # Main application file
+├── requirements.txt    # Project dependencies (Python stdlib only)
+├── LICENSE            # MIT License
+└── README.md          # This file
+```
 
 ## Prerequisites
 
 ### Hardware Requirements
+
 - NVIDIA GPU with compatible drivers installed
 - NVIDIA driver version that supports `nvidia-smi` command
 
 ### Software Requirements
+
 - Python 3.6 or higher
 - Tkinter (usually included with Python installation)
 - NVIDIA drivers with `nvidia-smi` utility
@@ -34,12 +45,14 @@ This application provides a user-friendly GUI that displays key NVIDIA GPU infor
 ## Installation
 
 1. **Clone or download the project:**
+
    ```bash
-   git clone <repository-url>
-   cd nvidia-smi-gui-pt
+   git clone https://github.com/yourusername/pytk-nvidia-smi-gui.git
+   cd pytk-nvidia-smi-gui
    ```
 
 2. **Verify Python installation:**
+
    ```bash
    python --version
    # or
@@ -47,26 +60,17 @@ This application provides a user-friendly GUI that displays key NVIDIA GPU infor
    ```
 
 3. **Verify NVIDIA drivers:**
+
    ```bash
    nvidia-smi
    ```
+
    This command should display your GPU information. If it fails, install appropriate NVIDIA drivers.
 
 ## Usage
 
-### Quick Start
+### Running the Application
 
-#### Windows (PowerShell)
-```powershell
-.\run.ps1
-```
-
-#### Linux/macOS (Bash)
-```bash
-./run.sh
-```
-
-#### Manual Execution
 ```bash
 python App.py
 # or
@@ -76,8 +80,11 @@ python3 App.py
 ### Application Interface
 
 - The application opens a window titled "NVIDIA-SMI GPU Monitor"
-- The top of the window displays the GPU name and a button to adjust the power limit
-- Key metrics (utilization, memory, temperature, power) are shown in a color-coded table
+- The top displays the GPU name and a button to adjust the power limit
+- Key metrics (utilization, memory, temperature, power) are shown in a color-coded table:
+  - 🟢 **Green**: Normal/Good values
+  - 🟠 **Orange**: Warning levels
+  - 🔴 **Red**: Critical/High values
 - A table lists all running GPU processes (PID, name, memory usage)
 - A button toggles display of the full `nvidia-smi` output in a collapsible section
 - Information updates automatically every 2 seconds
@@ -93,10 +100,12 @@ python3 App.py
 ## Configuration
 
 ### Update Interval
+
 To change the refresh rate, modify the `root.after(2000, update_gui)` line in `App.py` (2000 ms = 2 seconds).
 
 ### Color Thresholds
-You can adjust the warning/danger thresholds for utilization, memory, temperature, and power in the respective color functions in `App.py`.
+
+You can adjust the warning/danger thresholds for utilization, memory, temperature, and power in the respective color functions in `App.py`:
 
 ## Troubleshooting
 
@@ -112,93 +121,128 @@ You can adjust the warning/danger thresholds for utilization, memory, temperatur
    - Ensure Python is added to system PATH
 
 3. **Tkinter import error:**
-   - On Ubuntu/Debian: `sudo apt-get install python3-tk`
-   - On CentOS/RHEL: `sudo yum install tkinter`
+
+   - On Ubuntu/Debian:
+
+     ```bash
+     sudo apt-get install python3-tk
+     ```
+
+   - On CentOS/RHEL:
+
+     ```bash
+     sudo yum install tkinter
+     ```
+
    - On macOS: Usually included with Python
 
 4. **Permission denied (Linux/macOS):**
+
    ```bash
-   chmod +x run.sh
+   chmod +x App.py
    ```
 
 5. **Setting Power Limit Fails:**
-   - You may need to run the app as administrator/root to change the power limit.
+   - You may need to run the app as administrator/root to change the power limit
+   - On Linux: `sudo python App.py`
+   - On Windows: Run Command Prompt/PowerShell as Administrator
 
-## Building a Standalone Executable
+## Building a Standalone Executable (Optional)
 
-You can compile this app into a single-file executable for Windows or Linux using PyInstaller.
+You can compile this app into a single-file executable using PyInstaller:
 
-### Linux
+1. **Install PyInstaller:**
 
-1. Ensure you have Python 3.6+, pip, and tkinter installed.
-2. Run the build script:
    ```bash
-   ./build.sh
+   pip install pyinstaller
    ```
-   The executable `./nvidia-smi-gui-pt` will be created in the project directory.
 
-### Windows
+2. **Build the executable:**
 
-1. Ensure you have Python 3.6+, pip, and tkinter installed.
-2. Run the build script in PowerShell:
-   ```powershell
-   .\build.ps1
+   ```bash
+   pyinstaller --onefile --name nvidia-smi-gui-monitor App.py
    ```
-   The executable `nvidia-smi-gui-pt.exe` will be created in the project directory.
 
-### Manual Build (Advanced)
-
-You can also run PyInstaller directly:
-```bash
-python -m pip install pyinstaller
-python -m pyinstaller --onefile --name nvidia-smi-gui-pt App.py
-```
+3. **Find the executable:**
+   - The executable will be created in the `dist/` directory
+   - On Linux: `dist/nvidia-smi-gui-monitor`
+   - On Windows: `dist/nvidia-smi-gui-monitor.exe`
 
 ### Notes
-- The resulting executable is portable and does not require Python to be installed on the target system.
-- On Linux, you may need to run `chmod +x nvidia-smi-gui-pt` before executing.
-- On Windows, double-click or run from the command line.
-- If you encounter issues with missing libraries (e.g., tkinter), ensure all dependencies are installed on your build system.
 
-## System Requirements
+- The resulting executable is portable and does not require Python to be installed on the target system
+- On Linux, you may need to run `chmod +x nvidia-smi-gui-monitor` before executing
+- If you encounter issues with missing libraries (e.g., tkinter), ensure all dependencies are installed on your build system
 
-### Minimum Requirements
-- Python 3.6+
-- NVIDIA GPU with driver support
-- 50MB RAM
-- Minimal CPU usage
+## Technical Details
+
+### Performance
+
+- **Memory Usage**: ~10-20MB RAM
+- **CPU Usage**: Minimal (periodic nvidia-smi calls)
+- **Update Frequency**: 2 seconds (configurable)
+- **Dependencies**: Python standard library only
 
 ### Tested Platforms
-- Windows 10/11
-- Ubuntu 20.04+
-- macOS 10.14+
-- Various NVIDIA GPU models (GTX, RTX, Tesla, Quadro series)
+
+- **Windows**: 10, 11
+- **Linux**: Ubuntu 20.04+, CentOS 7+, Fedora 35+
+- **macOS**: 10.14+
+- **NVIDIA GPUs**: GTX, RTX, Tesla, Quadro series
+
+### Color Coding System
+
+- **Utilization/Memory**:
+  - Green: < 70%
+  - Orange: 70-90%
+  - Red: > 90%
+
+- **Temperature**:
+  - Green: < 65°C
+  - Orange: 65-80°C
+  - Red: > 80°C
+
+- **Power Draw**:
+  - Green: < 80% of limit
+  - Orange: 80-95% of limit
+  - Red: > 95% of limit
 
 ## License
 
-This project is open source. Please check the repository for specific license terms.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Contributing
 
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test on your platform
-5. Submit a pull request
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## Support
 
 For issues and questions:
-1. Check the troubleshooting section
+
+1. Check the troubleshooting section above
 2. Verify system requirements
-3. Create an issue in the repository
+3. Create an issue in the repository with:
+   - Your operating system
+   - Python version
+   - NVIDIA driver version
+   - Error message (if any)
 
-## Changelog
+## Author
 
-### Version 1.0
-- Initial release
-- Real-time nvidia-smi monitoring
-- Color-coded metrics and process table
-- Power limit adjustment window
-- Cross-platform support
--
+Palaash Atri
+
+## Acknowledgments
+
+- NVIDIA for the `nvidia-smi` utility
+- Python Software Foundation for Tkinter
+- The open-source community for inspiration and feedback
+
+---
+
+Made with ❤️ for GPU monitoring enthusiasts
