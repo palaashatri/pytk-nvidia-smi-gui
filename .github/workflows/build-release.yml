@@ -15,7 +15,7 @@ jobs:
       uses: actions/checkout@v4
       
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.11'
         
@@ -39,7 +39,7 @@ jobs:
         }
         
     - name: Upload Windows artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: nvidia-smi-gui-monitor-windows
         path: dist/nvidia-smi-gui-monitor.exe
@@ -53,7 +53,7 @@ jobs:
       uses: actions/checkout@v4
       
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.11'
         
@@ -86,7 +86,7 @@ jobs:
         fi
         
     - name: Upload Linux artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: nvidia-smi-gui-monitor-linux
         path: dist/nvidia-smi-gui-monitor
@@ -102,13 +102,13 @@ jobs:
       uses: actions/checkout@v4
       
     - name: Download Windows artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: nvidia-smi-gui-monitor-windows
         path: ./artifacts/windows/
         
     - name: Download Linux artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: nvidia-smi-gui-monitor-linux
         path: ./artifacts/linux/
