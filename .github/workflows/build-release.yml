@@ -6,6 +6,10 @@ on:
       - 'v*'  # Triggers on version tags like v1.0.0, v1.2.3, etc.
   workflow_dispatch:  # Allows manual triggering
 
+permissions:
+  contents: write
+  actions: read
+
 jobs:
   build-windows:
     runs-on: windows-latest
@@ -156,7 +160,7 @@ jobs:
         EOF
         
     - name: Create Release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
         name: "NVIDIA-SMI GUI Monitor ${{ steps.get_version.outputs.VERSION }}"
         body_path: release_notes.md
@@ -165,8 +169,7 @@ jobs:
         files: |
           ./artifacts/windows/nvidia-smi-gui-monitor.exe
           ./artifacts/linux/nvidia-smi-gui-monitor
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
         
     - name: Upload release assets info
       run: |
