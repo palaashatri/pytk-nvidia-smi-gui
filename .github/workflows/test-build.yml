@@ -1,0 +1,108 @@
+name: Build Test
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test-build-windows:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller
+        
+    - name: Test Windows build
+      run: |
+        pyinstaller --onefile --noconsole --name "nvidia-smi-gui-monitor-test" App.py
+        
+    - name: Verify test build
+      run: |
+        if (Test-Path "dist/nvidia-smi-gui-monitor-test.exe") {
+          Write-Output "✅ Windows build test passed"
+          Get-Item "dist/nvidia-smi-gui-monitor-test.exe" | Select-Object Name, Length
+        } else {
+          Write-Error "❌ Windows build test failed!"
+          exit 1
+        }
+
+  test-build-linux:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python3-tk
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller
+        
+    - name: Test Linux build
+      run: |
+        pyinstaller --onefile --name "nvidia-smi-gui-monitor-test" App.py
+        
+    - name: Verify test build
+      run: |
+        if [ -f "dist/nvidia-smi-gui-monitor-test" ]; then
+          echo "✅ Linux build test passed"
+          ls -la dist/nvidia-smi-gui-monitor-test
+        else
+          echo "❌ Linux build test failed!"
+          exit 1
+        fi
+
+  test-python-syntax:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        
+    - name: Check Python syntax
+      run: |
+        python -m py_compile App.py
+        echo "✅ Python syntax check passed"
+        
+    - name: Test imports (without nvidia-smi)
+      run: |
+        python -c "
+        import sys
+        sys.path.insert(0, '.')
+        try:
+            import tkinter as tk
+            from tkinter import ttk
+            import subprocess
+            import re
+            print('✅ All required modules can be imported')
+        except ImportError as e:
+            print(f'❌ Import error: {e}')
+            sys.exit(1)
+        "

@@ -44,6 +44,16 @@ pytk-nvidia-smi-gui/
 
 ## Installation
 
+### Option 1: Download Pre-built Executable (Recommended for Windows)
+
+1. **Go to the [Releases page](https://github.com/palaashatri/pytk-nvidia-smi-gui/releases)**
+2. **Download the latest release:**
+   - **Windows**: `nvidia-smi-gui-monitor.exe` - Ready to run, no Python required!
+   - **Linux**: `nvidia-smi-gui-monitor` - Make executable with `chmod +x nvidia-smi-gui-monitor`
+3. **Run the executable directly**
+
+### Option 2: Run from Source
+
 1. **Clone or download the project:**
 
    ```bash
@@ -70,6 +80,13 @@ pytk-nvidia-smi-gui/
 ## Usage
 
 ### Running the Application
+
+**If using pre-built executable:**
+
+- **Windows**: Double-click `nvidia-smi-gui-monitor.exe` or run from command prompt
+- **Linux**: `./nvidia-smi-gui-monitor` (after making it executable with `chmod +x`)
+
+**If running from source:**
 
 ```bash
 python App.py
@@ -149,7 +166,16 @@ You can adjust the warning/danger thresholds for utilization, memory, temperatur
 
 ## Building a Standalone Executable (Optional)
 
-You can compile this app into a single-file executable using PyInstaller:
+### Automated Builds
+
+This project includes GitHub Actions workflows that automatically build executables:
+
+- **Release Builds**: When you create a git tag (e.g., `v1.0.0`), executables for Windows and Linux are automatically built and attached to the GitHub release
+- **Test Builds**: Every push to main/master branch runs build tests to ensure the code compiles correctly
+
+### Manual Build
+
+You can also compile this app into a single-file executable using PyInstaller:
 
 1. **Install PyInstaller:**
 
@@ -167,6 +193,23 @@ You can compile this app into a single-file executable using PyInstaller:
    - The executable will be created in the `dist/` directory
    - On Linux: `dist/nvidia-smi-gui-monitor`
    - On Windows: `dist/nvidia-smi-gui-monitor.exe`
+
+### Creating a Release (for maintainers)
+
+To create a new release with automatic executable builds:
+
+1. **Create and push a version tag:**
+
+   ```bash
+   git tag v1.0.0
+   git push origin v1.0.0
+   ```
+
+2. **GitHub Actions will automatically:**
+   - Build Windows and Linux executables
+   - Create a GitHub release with the tag name
+   - Attach the executables to the release
+   - Generate release notes with download instructions
 
 ### Notes
 
